@@ -16,6 +16,8 @@ const SignInWrapper = styled.div`
   border-radius: 18px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Title = styled.h1`
@@ -23,20 +25,37 @@ const Title = styled.h1`
   font-weight: 600;
   margin-bottom: 10px;
 `;
-const Form = styled.form``;
-const InputWrapper = styled.div``;
-const InputLabel = styled.span``;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  gap: 30px;
+`;
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const InputLabel = styled.span`
+  font-size: 14px;
+`;
 const Input = styled.input`
-  border: none;
+  font-size: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 12px;
   :valid {
     background-color: white;
   }
   :invalid {
-    background-color: #ffcbd1;
+    background-color: #eff5f5;
   }
 `;
 const SubmitBtn = styled.input`
   border: none;
+  background-color: ${(props) => props.bgColor};
+  padding: 12px;
+  border-radius: 10px;
+  color: white;
 `;
 
 export default function Home() {
@@ -56,9 +75,15 @@ export default function Home() {
           </InputWrapper>
           <InputWrapper>
             <InputLabel for="password">비밀번호</InputLabel>
-            <Input type="password" id="password" minLength={8} required />
+            <Input
+              type="password"
+              id="password"
+              placeholder="비밀번호를 입력하세요."
+              minLength={8}
+              required
+            />
           </InputWrapper>
-          <SubmitBtn type="submit" />
+          <SubmitBtn type="submit" bgColor={theme.btnColor} />
         </Form>
       </SignInWrapper>
     </Wrapper>
