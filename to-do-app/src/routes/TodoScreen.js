@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { theme } from '../theme';
 import { getTodos, createTodo } from '../utils/todo-fn.js';
 
+import Todo from '../components/Todo';
+
 const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
@@ -33,27 +35,11 @@ const TodoList = styled.div`
   flex-direction: column;
   gap: 10px;
 `;
-const Todo = styled.div`
-  padding: 20px;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
-const TodoText = styled.span`
-  font-size: 16px;
-`;
-const TodoCheckbox = styled.div`
-  width: 16px;
-  height: 16px;
-  border: 1px solid black;
-  background-color: ${(props) => props.bgColor};
-`;
 
 const CreateTodoForm = styled.form`
   width: 100%;
   display: flex;
-  gap: 10px;
+  justify-content: space-around;
   margin-bottom: 20px;
 `;
 const CreateTodoInput = styled.input`
@@ -71,10 +57,6 @@ const CreateTodoSubmit = styled.input`
   color: white;
 `;
 
-const CHECKBOX_COLOR = {
-  [true]: theme.btnColor,
-  [false]: 'white',
-};
 export default function TodoScreen() {
   const navigate = useNavigate();
   const [todos, setTodos] = useState([]);
@@ -82,10 +64,12 @@ export default function TodoScreen() {
 
   useEffect(() => {
     navigateHome(!checkLocalStorage());
-    getTodos(handleGetTodos);
+    loadTodos();
   }, []);
 
-  useEffect(() => {}, [todos]);
+  const loadTodos = () => {
+    getTodos(handleGetTodos);
+  };
 
   const navigateHome = (condition) => {
     if (condition) {
@@ -101,7 +85,7 @@ export default function TodoScreen() {
   const handleCreateTodo = (status) => {
     if (status >= 200 && status <= 299) {
       setNewTodo('');
-      getTodos(handleGetTodos);
+      loadTodos();
     }
   };
 
@@ -136,13 +120,8 @@ export default function TodoScreen() {
           <span>투두 리스트가 없습니다.</span>
         ) : (
           <TodoList>
-            {todos.map((todo) => {
-              return (
-                <Todo>
-                  <TodoCheckbox bgColor={CHECKBOX_COLOR[todo.isCompleted]} />
-                  <TodoText>{todo.todo}</TodoText>
-                </Todo>
-              );
+            {[...todos].reverse().map((todo) => {
+              return <Todo todo={todo} loadTodos={loadTodos} />;
             })}
           </TodoList>
         )}

@@ -37,3 +37,21 @@ export const createTodo = async (newTodo, handleResponse) => {
       console.log(error);
     });
 };
+export const updateTodo = async (id, newTodo, handleResponse) => {
+  const token = getUserToken();
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  axios
+    .put(`${API_URL}/todos/${id}`, newTodo, config)
+    .then(function (response) {
+      console.log(response);
+      handleResponse(response.status);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
