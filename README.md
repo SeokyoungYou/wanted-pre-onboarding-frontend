@@ -31,8 +31,8 @@
 
 ### Assignment4 투두 리스트 CREATE & READ
 
-- getTodos: `/todo` 경로에서 투두 리스트 목록 확인
-  - 투두 내용과 완료여부 표시
+- getTodos: `/todo` 경로에서 투두 리스트 목록 확인 ✅
+  - 투두 내용과 완료여부 표시 ✅
 - createTodo: 입력창과 추가 버튼
   - 추가 버튼을 클릭하면 새로운 투두 리스트 추가
 

@@ -1,7 +1,11 @@
 export const USER_KEY = 'user';
 export const checkLocalStorage = () => {
-  if (localStorage.getItem(USER_KEY)) {
+  if (getUserToken()) {
     return true;
   }
   return false;
+};
+
+export const getUserToken = () => {
+  return localStorage.getItem(USER_KEY);
 };

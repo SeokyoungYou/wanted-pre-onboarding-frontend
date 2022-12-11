@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://pre-onboarding-selection-task.shop';
+export const API_URL = 'https://pre-onboarding-selection-task.shop';
 
 const RES_MSG = {
   SUCCESS(SignState) {
@@ -37,7 +37,7 @@ export const postAuth = async (data, signState, handleResponse) => {
       'Content-Type': 'application/json',
     },
   };
-  axios
+  await axios
     .post(SIGN_URL[signState], data, config)
     .then(function (response) {
       console.log(response);
