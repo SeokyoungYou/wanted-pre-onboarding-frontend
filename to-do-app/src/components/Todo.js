@@ -7,8 +7,8 @@ import {
   faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
-import { updateTodo } from '../utils/todo-fn';
+import { useState } from 'react';
+import { updateTodo, deleteTodo } from '../utils/todo-fn';
 const TodoWrapper = styled.div`
   padding: 20px;
   background-color: white;
@@ -20,7 +20,6 @@ const TodoContents = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
-  /* justify-content: center; */
 `;
 const TodoText = styled.span`
   font-size: 16px;
@@ -56,7 +55,14 @@ export default function Todo({ todo, loadTodos }) {
     setText(todo.todo);
     setComplete(todo.isCompleted);
   };
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    deleteTodo(todo.id, handleDeleteTodo);
+  };
+  const handleDeleteTodo = (status) => {
+    if (status >= 200 && status <= 299) {
+      loadTodos();
+    }
+  };
   const handleCancel = () => {
     if (window.confirm('수정을 취소하시겠습니까?') === true) {
       return setRevise(false);

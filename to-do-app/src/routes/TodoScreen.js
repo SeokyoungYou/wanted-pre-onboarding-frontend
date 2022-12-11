@@ -121,7 +121,7 @@ export default function TodoScreen() {
         ) : (
           <TodoList>
             {[...todos].reverse().map((todo) => {
-              return <Todo todo={todo} loadTodos={loadTodos} />;
+              return <Todo key={todo.id} todo={todo} loadTodos={loadTodos} />;
             })}
           </TodoList>
         )}

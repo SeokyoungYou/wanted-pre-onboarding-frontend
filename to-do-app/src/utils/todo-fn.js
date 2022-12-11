@@ -55,3 +55,20 @@ export const updateTodo = async (id, newTodo, handleResponse) => {
       console.log(error);
     });
 };
+export const deleteTodo = async (id, handleResponse) => {
+  const token = getUserToken();
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  axios
+    .delete(`${API_URL}/todos/${id}`, config)
+    .then(function (response) {
+      console.log(response);
+      handleResponse(response.status);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
