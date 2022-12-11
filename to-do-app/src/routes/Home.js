@@ -7,8 +7,10 @@ import {
   SIGN_UP,
   SUBMIT_BTN,
   TOGGLE_TEXT,
-} from '../api/auth-fn';
+} from '../utils/auth-fn';
 import { theme } from '../theme';
+import { useNavigate } from 'react-router-dom';
+import { checkLocalStorage, USER_KEY } from '../utils/local-storage-fn';
 const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
@@ -94,7 +96,11 @@ export default function Home() {
   const [signState, setSignState] = useState(SIGN_UP);
   const [form, setForm] = useState(initialForm);
   const [msg, setMsg] = useState('');
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    navigateTodo(checkLocalStorage());
+  }, []);
   useEffect(() => {
     setForm(initialForm);
   }, [signState]);
@@ -114,11 +120,18 @@ export default function Home() {
     });
   };
 
-  const handleResponse = (messeage, token = '') => {
+  const navigateTodo = (condition) => {
+    if (condition) {
+      navigate('/todo');
+    }
+  };
+
+  const handleResponse = (messeage, status, token = '') => {
     setMsg(messeage);
     if (token) {
-      localStorage.setItem('user', token);
+      localStorage.setItem(USER_KEY, token);
     }
+    navigateTodo(status >= 200 && status <= 299);
   };
 
   const handleSubmit = (e) => {

@@ -41,16 +41,14 @@ export const postAuth = async (data, signState, handleResponse) => {
     .post(SIGN_URL[signState], data, config)
     .then(function (response) {
       console.log(response);
-      handleResponse(RES_MSG.SUCCESS(signState), response.data.access_token);
+      handleResponse(
+        RES_MSG.SUCCESS(signState),
+        response.status,
+        response.data.access_token,
+      );
     })
     .catch(function (error) {
       console.log(error);
-      handleResponse(RES_MSG.FAIL(signState));
+      handleResponse(RES_MSG.FAIL(signState), error.status);
     });
 };
-
-// {
-//     "data": {
-//         "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNreXVAZ21haWwuY29tIiwic3ViIjoyMDI1LCJpYXQiOjE2NzA3NTI3MzgsImV4cCI6MTY3MTM1NzUzOH0.vFrUIDrS9NUlhR3LFUxbct4m7D0h4VVVp1sQQxQrf2s"
-//     },
-// }
