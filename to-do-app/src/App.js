@@ -4,7 +4,7 @@ import TodoScreen from './routes/TodoScreen';
 
 function App() {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route path="/todo" element={<TodoScreen />} />
         <Route path="/" element={<Home />} />
