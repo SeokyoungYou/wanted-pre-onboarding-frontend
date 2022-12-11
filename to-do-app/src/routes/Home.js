@@ -1,4 +1,13 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import {
+  HOME_TITLE,
+  postAuth,
+  SIGN_IN,
+  SIGN_UP,
+  SUBMIT_BTN,
+  TOGGLE_TEXT,
+} from '../api/auth-fn';
 import { theme } from '../theme';
 const Wrapper = styled.div`
   width: 100vw;
@@ -9,7 +18,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const SignInWrapper = styled.div`
+const FormWrapper = styled.div`
   background-color: white;
   width: 70%;
   height: 80%;
@@ -18,6 +27,7 @@ const SignInWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 const Title = styled.h1`
@@ -52,18 +62,78 @@ const Input = styled.input`
 `;
 const SubmitBtn = styled.input`
   border: none;
+  font-size: 16px;
   background-color: ${(props) => props.bgColor};
   padding: 12px;
   border-radius: 10px;
   color: white;
 `;
 
+const Message = styled.span`
+  margin-top: 10px;
+`;
+
+const ToggleBtn = styled.div`
+  background-color: ${(props) => props.bgColor};
+  padding: 10px;
+  border-radius: 10px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+`;
+const ToggleText = styled.span`
+  font-size: 14px;
+  color: white;
+`;
+const initialForm = {
+  email: '',
+  password: '',
+};
 export default function Home() {
+  const [signState, setSignState] = useState(SIGN_UP);
+  const [form, setForm] = useState(initialForm);
+  const [msg, setMsg] = useState('');
+
+  useEffect(() => {
+    setForm(initialForm);
+  }, [signState]);
+  const handleChange = (e) => {
+    setForm((prev) => {
+      const newForm = { ...prev, [e.target.id]: e.target.value };
+      return newForm;
+    });
+  };
+
+  const handleToggleClick = () => {
+    setSignState((prevState) => {
+      if (prevState === SIGN_UP) {
+        return SIGN_IN;
+      }
+      return SIGN_UP;
+    });
+  };
+
+  const handleResponse = (messeage, token = '') => {
+    setMsg(messeage);
+    if (token) {
+      localStorage.setItem('user', token);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    postAuth(form, signState, handleResponse);
+  };
+
   return (
     <Wrapper bgColor={theme.bgColorlight}>
-      <Title>회원 가입</Title>
-      <SignInWrapper>
-        <Form>
+      <Title>{HOME_TITLE[signState]}</Title>
+      <FormWrapper>
+        <ToggleBtn bgColor={theme.btnColor} onClick={handleToggleClick}>
+          <ToggleText>{TOGGLE_TEXT[signState]}</ToggleText>
+        </ToggleBtn>
+        <Form onSubmit={handleSubmit}>
           <InputWrapper>
             <InputLabel for="email">이메일 주소</InputLabel>
             <Input
@@ -71,6 +141,8 @@ export default function Home() {
               id="email"
               required
               placeholder="이메일 주소를 입력하세요."
+              value={form.email}
+              onChange={handleChange}
             />
           </InputWrapper>
           <InputWrapper>
@@ -80,12 +152,19 @@ export default function Home() {
               id="password"
               placeholder="비밀번호를 입력하세요."
               minLength={8}
+              value={form.password}
               required
+              onChange={handleChange}
             />
           </InputWrapper>
-          <SubmitBtn type="submit" bgColor={theme.btnColor} />
+          <SubmitBtn
+            type="submit"
+            bgColor={theme.btnColor}
+            value={SUBMIT_BTN[signState]}
+          />
         </Form>
-      </SignInWrapper>
+        <Message>{msg}</Message>
+      </FormWrapper>
     </Wrapper>
   );
 }
