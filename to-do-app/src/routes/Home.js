@@ -128,10 +128,13 @@ export default function Home() {
 
   const handleResponse = (messeage, status, token = '') => {
     setMsg(messeage);
-    if (token) {
+    if (signState === SIGN_IN && token) {
       localStorage.setItem(USER_KEY, token);
+      return navigateTodo(status >= 200 && status <= 299);
     }
-    navigateTodo(status >= 200 && status <= 299);
+    if (status >= 200 && status <= 299) {
+      return setSignState(SIGN_IN);
+    }
   };
 
   const handleSubmit = (e) => {
