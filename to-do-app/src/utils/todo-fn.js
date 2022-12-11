@@ -9,11 +9,29 @@ export const getTodos = async (handleResponse) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  await axios
+  axios
     .get(`${API_URL}/todos`, config)
     .then(function (response) {
       console.log(response);
       handleResponse(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
+export const createTodo = async (newTodo, handleResponse) => {
+  const token = getUserToken();
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  axios
+    .post(`${API_URL}/todos`, { todo: newTodo }, config)
+    .then(function (response) {
+      console.log(response);
+      handleResponse(response.status);
     })
     .catch(function (error) {
       console.log(error);

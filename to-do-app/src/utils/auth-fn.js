@@ -37,7 +37,7 @@ export const postAuth = async (data, signState, handleResponse) => {
       'Content-Type': 'application/json',
     },
   };
-  await axios
+  axios
     .post(SIGN_URL[signState], data, config)
     .then(function (response) {
       console.log(response);
