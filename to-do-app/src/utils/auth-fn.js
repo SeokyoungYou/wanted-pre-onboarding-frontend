@@ -39,14 +39,14 @@ export const postAuth = async (data, signState, handleResponse) => {
   };
   axios
     .post(SIGN_URL[signState], data, config)
-    .then(function (response) {
+    .then((response) => {
       handleResponse(
         RES_MSG.SUCCESS(signState),
         response.status,
         response.data.access_token,
       );
     })
-    .catch(function (error) {
+    .catch((error) => {
       handleResponse(RES_MSG.FAIL(signState), error.status);
     });
 };

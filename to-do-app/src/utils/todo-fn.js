@@ -11,10 +11,10 @@ export const getTodos = async (handleResponse) => {
   };
   axios
     .get(`${API_URL}/todos`, config)
-    .then(function (response) {
+    .then((response) => {
       handleResponse(response.data);
     })
-    .catch(function (error) {});
+    .catch((error) => {});
 };
 export const createTodo = async (newTodo, handleResponse) => {
   const token = getUserToken();
@@ -26,10 +26,10 @@ export const createTodo = async (newTodo, handleResponse) => {
   };
   axios
     .post(`${API_URL}/todos`, { todo: newTodo }, config)
-    .then(function (response) {
+    .then((response) => {
       handleResponse(response.status);
     })
-    .catch(function (error) {});
+    .catch((error) => {});
 };
 export const updateTodo = async (id, newTodo, handleResponse) => {
   const token = getUserToken();
@@ -41,10 +41,10 @@ export const updateTodo = async (id, newTodo, handleResponse) => {
   };
   axios
     .put(`${API_URL}/todos/${id}`, newTodo, config)
-    .then(function (response) {
+    .then((response) => {
       handleResponse(response.status);
     })
-    .catch(function (error) {});
+    .catch((error) => {});
 };
 export const deleteTodo = async (id, handleResponse) => {
   const token = getUserToken();
@@ -55,8 +55,8 @@ export const deleteTodo = async (id, handleResponse) => {
   };
   axios
     .delete(`${API_URL}/todos/${id}`, config)
-    .then(function (response) {
+    .then((response) => {
       handleResponse(response.status);
     })
-    .catch(function (error) {});
+    .catch((error) => {});
 };
