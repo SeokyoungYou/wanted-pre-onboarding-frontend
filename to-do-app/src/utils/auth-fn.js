@@ -40,7 +40,6 @@ export const postAuth = async (data, signState, handleResponse) => {
   axios
     .post(SIGN_URL[signState], data, config)
     .then(function (response) {
-      console.log(response);
       handleResponse(
         RES_MSG.SUCCESS(signState),
         response.status,
@@ -48,7 +47,6 @@ export const postAuth = async (data, signState, handleResponse) => {
       );
     })
     .catch(function (error) {
-      console.log(error);
       handleResponse(RES_MSG.FAIL(signState), error.status);
     });
 };
